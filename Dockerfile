@@ -1,0 +1,55 @@
+FROM resin/armhf-alpine:latest
+MAINTAINER orbsmiv@hotmail.com
+
+RUN [ "cross-build-start" ]
+
+ARG mosquitto_ver=v1.4.14
+
+RUN apk --no-cache -U add \
+        build-base \
+        autoconf \
+        automake \
+        libtool \
+        popt-dev \
+        libconfig-dev \
+        openssl-dev \
+        curl \
+        libwebsockets-dev \
+        util-linux-dev \
+        coreutils \
+  && mkdir /root/mosquitto \
+  && cd /root/mosquitto \
+  && mkdir ./ares \
+  && cd ./ares \
+  && curl -L -o ./ares.tar.gz https://c-ares.haxx.se/download/c-ares-1.13.0.tar.gz \
+  && tar -zxvf ares.tar.gz --strip-components=1 \
+  && ./configure \
+  && make \
+  && make install \
+  && cd /root/mosquitto \
+  && curl -L -o ./mosquitto.tar.gz https://github.com/eclipse/mosquitto/archive/${mosquitto_ver}.tar.gz \
+  && tar -zxvf mosquitto.tar.gz --strip-components=1 \
+  && make binary WITH_WEBSOCKETS=yes \
+  && make install WITH_DOCS=no \
+  && mkdir -p /mosquitto/config /mosquitto/data /mosquitto/log \
+  && cp mosquitto.conf /mosquitto/config \
+  && apk --purge del \
+        build-base \
+        autoconf \
+        automake \
+        libtool \
+        popt-dev \
+        libconfig-dev \
+        curl \
+  && rm -rf \
+        /etc/ssl \
+        /lib/apk/db/* \
+        /root/mosquitto
+
+COPY docker-entrypoint.sh /
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["/usr/sbin/mosquitto", "-c", "/mosquitto/config/mosquitto.conf"]
+
+RUN [ "cross-build-end" ]

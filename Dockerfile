@@ -46,6 +46,8 @@ RUN apk --no-cache -U add \
         /lib/apk/db/* \
         /root/mosquitto
 
+RUN addgroup -S mosquitto && adduser -S -D -H -G mosquitto mosquitto
+
 COPY docker-entrypoint.sh /
 
 ENTRYPOINT ["/docker-entrypoint.sh"]

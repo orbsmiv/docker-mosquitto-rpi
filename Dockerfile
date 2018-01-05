@@ -3,7 +3,8 @@ MAINTAINER orbsmiv@hotmail.com
 
 RUN [ "cross-build-start" ]
 
-ARG mosquitto_ver=v1.4.14
+ARG mosquitto_ver="v1.4.14"
+ARG cares_ver="1_13_0"
 
 RUN apk --no-cache -U add \
         build-base \
@@ -21,7 +22,7 @@ RUN apk --no-cache -U add \
   && cd /root/mosquitto \
   && mkdir ./ares \
   && cd ./ares \
-  && curl -L -o ./ares.tar.gz https://c-ares.haxx.se/download/c-ares-1.13.0.tar.gz \
+  && curl -L -o ./ares.tar.gz https://github.com/c-ares/c-ares/archive/cares-${cares_ver}.tar.gz \
   && tar -zxvf ares.tar.gz --strip-components=1 \
   && ./configure \
   && make \

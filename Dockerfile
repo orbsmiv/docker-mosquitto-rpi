@@ -50,6 +50,7 @@ RUN addgroup -S mosquitto \
   && adduser -S -D -H -G mosquitto mosquitto \
   && chown mosquitto:mosquitto /mosquitto/data /mosquitto/log
 
+COPY mosquitto.conf /mosquitto/config/
 COPY docker-entrypoint.sh /
 
 ENTRYPOINT ["/docker-entrypoint.sh"]

@@ -24,6 +24,7 @@ RUN apk --no-cache -U add \
   && cd ./ares \
   && curl -L -o ./ares.tar.gz https://github.com/c-ares/c-ares/archive/cares-${cares_ver}.tar.gz \
   && tar -zxvf ares.tar.gz --strip-components=1 \
+  && ./buildconf \
   && ./configure \
   && make \
   && make install \

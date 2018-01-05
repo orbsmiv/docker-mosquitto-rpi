@@ -32,7 +32,7 @@ RUN apk --no-cache -U add \
   && make binary WITH_WEBSOCKETS=yes \
   && make install WITH_DOCS=no \
   && mkdir -p /mosquitto/config /mosquitto/data /mosquitto/log \
-  && cp mosquitto.conf /mosquitto/config \
+  && cp mosquitto.conf /mosquitto/config/mosquitto.conf.example \
   && apk --purge del \
         build-base \
         autoconf \

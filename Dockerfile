@@ -3,7 +3,7 @@ MAINTAINER orbsmiv@hotmail.com
 
 RUN [ "cross-build-start" ]
 
-ARG mosquitto_ver="v1.4.14"
+ARG mosquitto_ver="v1.4.15"
 ARG cares_ver="1_13_0"
 
 RUN apk --no-cache -U add \
